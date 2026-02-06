@@ -15,7 +15,7 @@ def load_data():
     return pd.read_csv(url)
 
 st.title("🌱 Daftar Tanaman")
-st.markdown("Sistem ini sekarang memberikan 3 opsi referensi untuk memudahkan pengambilan keputusan tender.")
+st.markdown("Directory untuk kebutuhan tanaman berdasarkan tinggi dan diameter")
 st.markdown("---")
 
 try:
@@ -52,21 +52,21 @@ try:
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                st.info("🎯 **Keseimbangan Terbaik** (Euclidean)")
+                st.info("Kecocokan Standar")
                 st.write(f"Tinggi: {match_all['Tinggi (m)']} m")
                 st.write(f"Diam: {match_all['Diameter (m)']} m")
                 st.metric("Harga", f"Rp {match_all['Harga']:,.0f}")
                 st.caption("Paling mirip secara keseluruhan.")
 
             with col2:
-                st.success("📏 **Tinggi Paling Pas**")
+                st.success("Kecocokan Tinggi")
                 st.write(f"Tinggi: {match_height['Tinggi (m)']} m")
                 st.write(f"Diam: {match_height['Diameter (m)']} m")
                 st.metric("Harga", f"Rp {match_height['Harga']:,.0f}")
                 st.caption("Prioritas pada target tinggi.")
 
             with col3:
-                st.warning("⭕ **Diameter Paling Pas**")
+                st.warning("Kecocokan Diameter")
                 st.write(f"Tinggi: {match_diam['Tinggi (m)']} m")
                 st.write(f"Diam: {match_diam['Diameter (m)']} m")
                 st.metric("Harga", f"Rp {match_diam['Harga']:,.0f}")
@@ -83,4 +83,5 @@ except Exception as e:
     st.error(f"Error: {e}")
 
 st.caption(f"Challenge Accepted | Boris Prilyan | Last Sync: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
 
