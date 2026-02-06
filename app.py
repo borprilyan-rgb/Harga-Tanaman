@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 # --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Canopy Landscape Directory", layout="wide", page_icon="🌱")
+st.set_page_config(page_title="Daftar Harga Tanaman", layout="wide", page_icon="🌱")
 
 # --- KONEKSI GOOGLE SHEETS ---
 GOOGLE_SHEET_ID = '1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro'
@@ -15,7 +15,7 @@ url = f'https://docs.google.com/spreadsheets/d/1bOJN0eShLtXvTFbnMhYYBzgBzKs03kbl
 def load_data():
     return pd.read_csv(url)
 
-st.title("🌱 Canopy: Intelligent Database")
+st.title("🌱 Daftar Harga Tanaman")
 st.markdown("---")
 
 # Inisialisasi df agar tidak NameError
@@ -72,3 +72,4 @@ except Exception as e:
 
 st.markdown("---")
 st.caption(f"Update terakhir: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
