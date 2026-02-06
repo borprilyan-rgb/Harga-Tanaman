@@ -8,7 +8,7 @@ st.set_page_config(page_title="Canopy Landscape Directory", layout="wide", page_
 # --- 2. KONEKSI GOOGLE SHEETS (Membaca Data) ---
 GOOGLE_SHEET_ID = '1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro'
 SHEET_NAME = 'Sheet1' 
-url = f'https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}'
+url = f'https://docs.google.com/spreadsheets/d/1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro/gviz/tq?tqx=out:csv&sheet=Sheet1'
 
 # --- 3. LINK GOOGLE FORM (Input Data) ---
 # Link sudah saya ubah ke format 'viewform' agar bisa tampil di website
@@ -75,3 +75,4 @@ except Exception as e:
 
 st.markdown("---")
 st.caption(f"Update terakhir: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
