@@ -14,7 +14,7 @@ url = f'https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out
 def load_data():
     return pd.read_csv(url)
 
-st.title("🌱 Daftar Tanaman")
+st.title("Daftar Harga Tanaman")
 st.markdown("Directory untuk kebutuhan tanaman berdasarkan tinggi dan diameter")
 st.markdown("---")
 
@@ -22,7 +22,7 @@ try:
     df = load_data()
     
     # Sidebar Input
-    st.sidebar.header("🔍 Kriteria Target")
+    st.sidebar.header("Kriteria Target")
     daftar_tanaman = sorted(df['Nama Tanaman'].unique())
     nama_cari = st.sidebar.selectbox("Pilih Jenis Tanaman", daftar_tanaman)
     t_target = st.sidebar.number_input("Target Tinggi (m)", min_value=0.0, step=0.1, value=2.0)
@@ -83,5 +83,6 @@ except Exception as e:
     st.error(f"Error: {e}")
 
 st.caption(f"Challenge Accepted | Boris Prilyan | Last Sync: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
 
 
