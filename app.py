@@ -82,7 +82,16 @@ try:
 except Exception as e:
     st.error(f"Error: {e}")
 
-st.caption(f"Challenge Accepted | Boris Prilyan | Last Sync: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+from datetime import datetime
+import pytz
+
+# Tentukan zona waktu Jakarta (GMT+7)
+timezone = pytz.timezone('Asia/Jakarta')
+waktu_sekarang = datetime.now(timezone).strftime('%Y-%m-%d %H:%M:%S')
+
+st.markdown("---")
+st.caption(f"Challenge Accepted | Boris Prilyan | Last Sync: {waktu_sekarang} WIB")
+
 
 
 
