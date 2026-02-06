@@ -53,18 +53,22 @@ try:
         else:
             st.error("Database kosong. Silakan isi data di Google Sheets.")
 
-    with tab2:
-        st.subheader("Manajemen Database Tanaman")
-        st.info("Klik tombol di bawah untuk membuka Google Sheets. Data yang kamu tambah di sana akan muncul di sini dalam 10 detik.")
+with tab2:
+    st.subheader("➕ Tambah Data Tanaman Baru")
+    
+    # Form Input di Website
+    with st.form("input_baru"):
+        new_nama = st.text_input("Nama Tanaman")
+        new_t = st.number_input("Tinggi (m)", min_value=0.0, step=0.1)
+        new_d = st.number_input("Diameter (m)", min_value=0.0, step=0.1)
+        new_harga = st.number_input("Harga (Rp)", min_value=0)
         
-        # Tombol Langsung ke Google Sheets
-        link_sheets = f"https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/edit"
-        st.link_button("Buka Google Sheets (Tambah Data)", link_sheets)
+        submit_button = st.form_submit_button(label="Kirim ke Database")
         
-        st.markdown("---")
-        st.write("### Preview Database Saat Ini:")
-        # Sekarang df sudah pasti terdefinisi
-        st.dataframe(df, use_container_width=True)
+        if submit_button:
+            # Di sini kita butuh integrasi API untuk menulis ke Google Sheets
+            st.warning("Fitur 'Simpan Langsung' membutuhkan Google API Key.")
+            st.info("Untuk sementara, silakan gunakan tombol di bawah untuk input.")
 
 except Exception as e:
     st.error(f"Gagal memuat data. Periksa koneksi atau ID Google Sheets kamu.")
@@ -72,3 +76,4 @@ except Exception as e:
 
 st.markdown("---")
 st.caption(f"Update terakhir: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
