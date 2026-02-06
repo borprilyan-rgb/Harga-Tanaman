@@ -12,7 +12,7 @@ url = f'https://docs.google.com/spreadsheets/d/1bOJN0eShLtXvTFbnMhYYBzgBzKs03kbl
 
 # --- 3. LINK GOOGLE FORM (Input Data) ---
 # Link sudah saya ubah ke format 'viewform' agar bisa tampil di website
-LINK_GOOGLE_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSca_MhXnFisX8_42Ea7Bf6Rz-zRIsU_Y7zF5rW-tO9R9-V87A/viewform?embedded=true"
+LINK_GOOGLE_FORM = "https://docs.google.com/forms/d/e/1FAIpQLScTFNnpttmUPIvdq9aK4d8xaUDQLDSOX-x7jYBBFGNNiKxdmQ/viewform?usp=dialog"
 
 @st.cache_data(ttl=10)
 def load_data():
@@ -75,4 +75,5 @@ except Exception as e:
 
 st.markdown("---")
 st.caption(f"Update terakhir: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
 
