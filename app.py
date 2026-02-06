@@ -3,55 +3,57 @@ import pandas as pd
 import numpy as np
 
 # --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Canopy Landscape Directory", layout="wide")
+st.set_page_config(page_title="Canopy Landscape Directory", layout="wide", page_icon="🌱")
 
-# --- BAGIAN YANG HARUS KAMU UBAH ---
-# Ganti kode di bawah ini dengan ID Google Sheets kamu
+# --- KONEKSI GOOGLE SHEETS ---
+# ID yang diambil dari link yang kamu berikan
 GOOGLE_SHEET_ID = '1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro'
-SHEET_NAME = 'Sheet1'  # Pastikan nama sheet di bawah (tab) adalah Sheet1
+SHEET_NAME = 'Sheet1' 
 
-# URL untuk mengambil data sebagai CSV
-url = f'https://docs.google.com/spreadsheets/d/1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro/edit?usp=sharing'
+# URL untuk export ke CSV agar bisa dibaca Pandas
+url = f'https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}'
 
 # --- FUNGSI LOAD DATA ---
-@st.cache_data(ttl=60) # Refresh data tiap 60 detik
+@st.cache_data(ttl=60) # Data refresh otomatis setiap 60 detik
 def load_data():
     return pd.read_csv(url)
 
 st.title("🌱 Canopy: Intelligent Landscape Search")
+st.markdown("Sistem pencarian spesifikasi tanaman terdekat berbasis database Cloud.")
 st.markdown("---")
 
 try:
-    # Memuat data
+    # Memuat data dari Google Sheets
     df = load_data()
     
-    # Sidebar untuk Input
-    st.sidebar.header("🔍 Input Spesifikasi")
+    # Sidebar untuk Input Pencarian
+    st.sidebar.header("🔍 Filter Spesifikasi")
     
-    # Dropdown Nama Tanaman (Otomatis ambil dari Google Sheets)
-    daftar_tanaman = df['Nama Tanaman'].unique()
+    # Mengambil daftar unik nama tanaman untuk dropdown
+    daftar_tanaman = sorted(df['Nama Tanaman'].unique())
     nama_cari = st.sidebar.selectbox("Pilih Jenis Tanaman", daftar_tanaman)
     
-    # Input Tinggi dan Diameter
-    tinggi_cari = st.sidebar.number_input("Target Tinggi (m)", min_value=0.0, step=0.1, value=1.0)
+    # Input kriteria yang dicari
+    tinggi_cari = st.sidebar.number_input("Target Tinggi (m)", min_value=0.0, step=0.1, value=2.0)
     diam_cari = st.sidebar.number_input("Target Diameter (m)", min_value=0.0, step=0.1, value=0.5)
 
-    if st.sidebar.button("Cari Match Terdekat"):
-        # Filter data berdasarkan nama yang dipilih
+    if st.sidebar.button("Cari Data Terdekat"):
+        # Filter data berdasarkan tanaman yang dipilih
         df_filter = df[df['Nama Tanaman'] == nama_cari].copy()
 
         if not df_filter.empty:
-            # RUMUS: Euclidean Distance (Mencari jarak terpendek/paling mirip)
+            # Algoritma Euclidean Distance untuk mencari yang paling mirip
+            # Menghitung selisih antara input user dengan data di database
             df_filter['selisih'] = np.sqrt(
                 (df_filter['Tinggi (m)'] - tinggi_cari)**2 + 
                 (df_filter['Diameter (m)'] - diam_cari)**2
             )
             
-            # Ambil baris dengan selisih terkecil
+            # Mengambil baris dengan nilai selisih terkecil
             hasil = df_filter.loc[df_filter['selisih'].idxmin()]
 
-            # Menampilkan Hasil ke Dashboard
-            st.subheader(f"Hasil Terbaik untuk: {nama_cari}")
+            # Tampilan Dashboard Hasil
+            st.subheader(f"Hasil Pencarian untuk: {nama_cari}")
             
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -61,20 +63,20 @@ try:
             with col3:
                 st.metric("Estimasi Harga", f"Rp {hasil['Harga']:,.0f}")
             
-            st.success(f"Ditemukan spesifikasi yang paling mendekati di database.")
+            st.info(f"Sistem menampilkan data yang paling mendekati target (T:{tinggi_cari}m, D:{diam_cari}m).")
             
-            # Menampilkan Tabel Pembanding (Opsional)
-            with st.expander("Lihat perbandingan data lainnya"):
-                st.dataframe(df_filter.sort_values(by='selisih').head(5))
+            # Tabel Riwayat/Alternatif (Menampilkan 5 yang terdekat)
+            with st.expander("Lihat 5 Opsi Terdekat Lainnya"):
+                tabel_tampil = df_filter.sort_values(by='selisih').head(5)
+                st.table(tabel_tampil[['Nama Tanaman', 'Tinggi (m)', 'Diameter (m)', 'Harga']])
         else:
-            st.error("Data tanaman tersebut tidak ditemukan.")
+            st.warning(f"Tanaman '{nama_cari}' belum tersedia di database.")
 
-    # Bagian Footer/Informasi Database
+    # Footer
     st.markdown("---")
-    st.caption(f"Status: Terkoneksi ke Google Sheets. Terakhir diupdate: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    st.caption(f"Status: Terhubung ke Google Sheets | Update terakhir: {pd.Timestamp.now().strftime('%H:%M:%S')}")
 
 except Exception as e:
-    st.error("Gagal terhubung ke Google Sheets.")
-    st.info("Pastikan ID Google Sheets benar dan aksesnya sudah 'Anyone with the link can view'.")
-    st.write(f"Error Detail: {e}")
-
+    st.error("Koneksi gagal atau format kolom Google Sheets tidak sesuai.")
+    st.write("Pastikan kolom di Google Sheets berjudul: **Nama Tanaman**, **Tinggi (m)**, **Diameter (m)**, dan **Harga**.")
+    st.write(f"Detail Error: {e}")
