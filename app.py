@@ -14,7 +14,7 @@ url = f'https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out
 def load_data():
     return pd.read_csv(url)
 
-st.title("Daftar Harga Tanaman")
+st.title("Daftar Harga Tanaman 🌱")
 st.markdown("Directory untuk kebutuhan tanaman berdasarkan tinggi dan diameter")
 st.markdown("---")
 
@@ -83,6 +83,7 @@ except Exception as e:
     st.error(f"Error: {e}")
 
 st.caption(f"Challenge Accepted | Boris Prilyan | Last Sync: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
 
 
 
