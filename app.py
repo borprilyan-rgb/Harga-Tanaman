@@ -15,7 +15,7 @@ url = f'https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out
 def load_data():
     return pd.read_csv(url)
 
-st.title("🌱 Canopy: Intelligent Database")
+st.title("🌱 Daftar Harga Tanaman")
 st.markdown("---")
 
 # Inisialisasi df agar tidak NameError
@@ -72,4 +72,5 @@ except Exception as e:
 
 st.markdown("---")
 st.caption(f"Update terakhir: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
 
