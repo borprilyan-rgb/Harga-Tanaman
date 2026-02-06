@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 # --- 1. KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Canopy Landscape Directory", layout="wide", page_icon="🌱")
+st.set_page_config(page_title="Daftar Tanaman", layout="wide", page_icon="🌱")
 
 # --- 2. KONEKSI GOOGLE SHEETS ---
 GOOGLE_SHEET_ID = '1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro'
@@ -14,7 +14,7 @@ url = f'https://docs.google.com/spreadsheets/d/{GOOGLE_SHEET_ID}/gviz/tq?tqx=out
 def load_data():
     return pd.read_csv(url)
 
-st.title("🌱 Canopy: Multi-Reference Search")
+st.title("🌱 Daftar Tanaman")
 st.markdown("Sistem ini sekarang memberikan 3 opsi referensi untuk memudahkan pengambilan keputusan tender.")
 st.markdown("---")
 
@@ -82,4 +82,5 @@ try:
 except Exception as e:
     st.error(f"Error: {e}")
 
-st.caption(f"Project PIK 2 | Boris Prilyan | Last Sync: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+st.caption(f"Challenge Accepted | Boris Prilyan | Last Sync: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+
