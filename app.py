@@ -11,7 +11,7 @@ GOOGLE_SHEET_ID = '1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro'
 SHEET_NAME = 'Sheet1'  # Pastikan nama sheet di bawah (tab) adalah Sheet1
 
 # URL untuk mengambil data sebagai CSV
-url = f'https://docs.google.com/spreadsheets/d/1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro/edit?gid=0#gid=0'
+url = f'https://docs.google.com/spreadsheets/d/1bOJN0eShLtXvTFbnMhYYBzgBzKs03kblHDUOWw2bhro/edit?usp=sharing'
 
 # --- FUNGSI LOAD DATA ---
 @st.cache_data(ttl=60) # Refresh data tiap 60 detik
@@ -77,3 +77,4 @@ except Exception as e:
     st.error("Gagal terhubung ke Google Sheets.")
     st.info("Pastikan ID Google Sheets benar dan aksesnya sudah 'Anyone with the link can view'.")
     st.write(f"Error Detail: {e}")
+
